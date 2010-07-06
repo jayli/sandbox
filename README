@@ -1,17 +1,17 @@
 Sandbox - A module-based javascript seed.
  
- * Created by °Î³à(lijing00333@163.com)
+ * Created by æ‹”èµ¤(lijing00333@163.com)
  * License: http://www.opensource.org/licenses/mit-license.php
 
-ÀíÄî£º
- - ¶¯Ì¬¹¹½¨Ä£¿éÊ÷
- - ¶ÀÌØµÄ´úÂë×éÖ¯·ç¸ñ
- - ÓÃËüÀ´¿ªÍØÄãµÄÊÓÒ°
+ç†å¿µï¼š
+ - åŠ¨æ€æ„å»ºæ¨¡å—æ ‘
+ - ç‹¬ç‰¹çš„ä»£ç ç»„ç»‡é£æ ¼
+ - ç”¨å®ƒæ¥å¼€æ‹“ä½ çš„è§†é‡
 
-ËµÃ÷:
+è¯´æ˜:
 
- - sandbox-seed.js	ÖÖ×ÓÎÄ¼ş£¬ÊµÏÖÁËÒ»ÖÖÄ£¿é¹ÜÀí»úÖÆ
+ - sandbox-seed.js	ç§å­æ–‡ä»¶ï¼Œå®ç°äº†ä¸€ç§æ¨¡å—ç®¡ç†æœºåˆ¶
 
-¼æÈİä¯ÀÀÆ÷£º IE 6+, Firefox 3+, Safari 4+, Chrome 2+, Opera 9+
+å…¼å®¹æµè§ˆå™¨ï¼š IE 6+, Firefox 3+, Safari 4+, Chrome 2+, Opera 9+
 
 Thanks for your reading!

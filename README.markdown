@@ -1,4 +1,4 @@
-﻿# Sandbox
+﻿## Sandbox
 
 A module-based javascript seed.
  
@@ -9,7 +9,7 @@ A module-based javascript seed.
 
 - 动态构建模块树
 - 独特的代码组织风格
-- 用它来开拓你的视野
+- 它很好玩
 
 ## 说明
 
@@ -20,3 +20,24 @@ A module-based javascript seed.
 - IE 6+, Firefox 3+, Safari 4+, Chrome 2+, Opera 9+
 
 Thanks for your reading!
+
+## Useage
+
+参照[Demo](http://jayli.github.com/sandbox/examples/jq-tab.html)，主程序依赖了`tab.js`,`tab.js`依赖了`jquery.js`
+
+主程序
+	Sandbox.ready(function(S){
+		S.Demo.init();
+	},{requires:['js/tab.js']});
+
+`tab.js`
+
+	Sandbox.add('tab',function(S){
+		S.namespace('S.Demo');
+		S.Demo.init = function(){
+			//YourCode...
+		};
+	},{requires:[
+		'jquery.js',
+		'skin.css'
+	]});

@@ -30,7 +30,7 @@ Thanks for your reading!
 		S.Demo.init();
 	},{requires:['js/tab.js']});
 
-`tab.js`
+tab.js
 
 	Sandbox.add('tab',function(S){
 		S.namespace('S.Demo');

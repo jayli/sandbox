@@ -1,4 +1,5 @@
-﻿## Sandbox
+﻿
+## Info
 
 A module-based javascript seed.
  

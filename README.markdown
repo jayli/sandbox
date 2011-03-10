@@ -14,7 +14,6 @@ A module-based javascript seed.
 
 ## 说明
 
-- [Demo](http://jayli.github.com/sandbox/examples/jq-tab.html)
 - [sandbox-seed.js](https://github.com/jayli/sandbox/blob/master/core/sandbox-seed.js)	种子文件，实现了一种模块管理机制
 
 ## 兼容浏览器
@@ -33,7 +32,7 @@ Thanks for your reading!
 
 tab.js
 
-	Sandbox.add('tab',function(S){
+	Sandbox.add('tab',function(S){ //第一个参数可以省略
 		S.namespace('S.Demo');
 		S.Demo.init = function(){
 			//YourCode...

@@ -1,5 +1,4 @@
-﻿
-# Info
+﻿# Info
 
 ![logo](http://img02.taobaocdn.com/tps/i2/T1k_p2XohxXXXXXXXX-492-96.png)
 
@@ -18,7 +17,7 @@ Sandbox - 一个好玩的脚本加载器.
 
 - [sandbox-seed.js](https://github.com/jayli/sandbox/blob/master/core/sandbox-seed.js)	种子文件，实现了一种模块管理机制
 
-又一个“脚本加载器”？对，这个seed文件实现了Loader的功能，处理脚本之间的依赖关系，加载过程中构建模块依赖关系，将模块于模块的调用关系耦合降到最低，例如，A依赖B，B的依赖对A是不透明的。因此，Sandbox和[controlJS](http://stevesouders.com/controljs/)相比，它是非侵入的，和[YUILoader](http://developer.yahoo.com/yui/3/)相比，它不必预先定义好依赖次序，和[yepnopejs](http://yepnopejs.com/)相比，没有繁杂的约定……
+又一个“脚本加载器”？对，这个seed文件实现了Loader的功能，处理脚本之间的依赖关系，将模块于模块的调用关系耦合降到最低，它是最简单的脚本加载器，例如，A依赖B，B的依赖对A是不透明的。因此，Sandbox和[controlJS](http://stevesouders.com/controljs/)相比，它是非侵入的，和[YUILoader](http://developer.yahoo.com/yui/3/)相比，它不必预先定义好依赖次序，和[yepnopejs](http://yepnopejs.com/)相比，没有繁杂的约定和对document.write的限制……
 
 # Demo
 

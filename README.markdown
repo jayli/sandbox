@@ -39,7 +39,7 @@ Demo2中，test.php中的依赖关系为
 				|
 				|--4.js
 
-Loading瀑布，脚本加载为串行，动态构建模块树
+Loading瀑布，脚本加载为串行，动态构建模块树,其中并行的两个js下载是2.js和3.js
 
 ![loading](http://jayli.github.com/sandbox/assets/loading.png)
 

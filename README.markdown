@@ -21,7 +21,7 @@ Sandbox - 一个好玩的脚本加载器.
 # Demo
 
 - [Demo1](http://jayli.github.com/sandbox/examples/jq-tab.html)，主程序依赖了`tab.js`,`tab.js`依赖了`jquery.js`
-- [Demo2](http://jayli.github.com/sandbox/examples/test.php)，依赖php环境，测试loader顺序
+- [Demo2](http://jayli.github.com/sandbox/examples/test.php.html)，依赖php环境，测试loader顺序
 
 Demo2中，test.php中的依赖关系为
 

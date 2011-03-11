@@ -64,8 +64,12 @@ status:逻辑是否依赖domready，true时立即执行，false等待domready后
 
 等待domready后执行逻辑
 
-	Sandbox.ready(function(S){//domready后执行这段逻辑，如果已经domready，立即执行
+	Sandbox.ready(function(S){//domready后执行这段逻辑，请求子逻辑也是domready之后，如果已经domready，立即执行
 		alert('hello world!');	
+	},{
+		requires:[
+			'1.js','2.js','3.css'
+		]
 	});
 
 ## 添加子模块

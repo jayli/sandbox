@@ -39,6 +39,10 @@ Demo2中，test.php中的依赖关系为
 				|
 				|--4.js
 
+Loading瀑布，脚本加载为串行，动态构建模块树
+
+![loading](http://jayli.github.com/sandbox/assets/loading.png)
+
 # API
 
 ## 逻辑的启动

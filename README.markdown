@@ -1,4 +1,4 @@
-﻿![logo](http://img02.taobaocdn.com/tps/i2/T1k_p2XohxXXXXXXXX-492-96.png)
+﻿![logo](http://img01.taobaocdn.com/tps/i1/T1Jal3XgFeXXXXXXXX-333-92.png)
 
 Sandbox - 一个好玩的脚本加载器.
  

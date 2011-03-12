@@ -27,14 +27,16 @@ Demo2中，test.php中的依赖关系为
 	test.php
 		|
 		|--1.js
-			|
-			|--2.js
-			|	|
-			|	|--jquery
-			|
-			|--3.js
-				|
-				|--4.js
+		|	|
+		|	|--2.js
+		|	|	|
+		|	|	|--jquery
+		|	|
+		|	|--3.js
+		|		|
+		|		|--4.js
+		|
+		|--5.js
 
 Loading瀑布，脚本加载为串行(因为Loader在加载1.js文件完成之前无法知晓1.js依赖其他的js文件)，动态构建模块树,其中并行的两个js下载是2.js和3.js
 
@@ -106,6 +108,26 @@ config：该模块的依赖文件和其他配置，格式为
 		//your code,这里的代码无执行
 	},{
 		auto:false	
+	});
+
+## 调用子模块
+
+为了让程序组织更加灵活，Sandbox增加了use方法，可以让模块在装载的时候不用初始化，在需要的时候再初始化，实现逻辑类似YUI().use()，只是Sandbox.use没有和loader本身关联在一起，仅用作调用子逻辑。用法：Sandbox.use('modulename1','modulename2')，例如主程序调用了1.js：
+
+	Sandbox.ready(function(S){
+		//主逻辑
+	},{requires:['1.js']});
+
+1.js设置了不立即执行，并给定了逻辑的名称
+
+	Sandbox.add('modulename',function(S){
+		//模块逻辑
+	},{auto:false});
+
+在需要的时刻调用这个逻辑：
+
+	Sandbox.use('modulename').ready(function(S){
+		//执行子逻辑后的回调
 	});
 
 ## 定义命名空间

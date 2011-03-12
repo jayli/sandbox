@@ -112,7 +112,7 @@ config：该模块的依赖文件和其他配置，格式为
 
 ## 调用子模块
 
-为了让程序组织更加灵活，Sandbox增加了use方法，可以让模块在装载的时候不用初始化，在需要的时候再初始化，实现逻辑类似YUI().use()，只是Sandbox.use没有和loader本身关联在一起，仅用作调用子逻辑。用法：Sandbox.use('modulename1','modulename2')，例如主程序调用了1.js：
+为了让程序组织更加灵活，Sandbox增加了use方法，可以让模块在装载的时候不用执行(通过配置auto参数)，在需要的时刻再执行子逻辑，实现逻辑类似YUI().use()，只是Sandbox.use没有和loader本身关联在一起，仅用作调用子逻辑。用法：Sandbox.use('modulename1','modulename2')，例如主程序调用了1.js：
 
 	Sandbox.ready(function(S){
 		//主逻辑

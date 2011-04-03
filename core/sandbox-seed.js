@@ -4,11 +4,10 @@
  *		- 模块依赖关系对父模块不可见
  *		- modules之间的进一步解耦
  *
- * @Class Sandbox
- * @author 拔赤 lijing00333@163.com
+ * Copyright 2011, 拔赤 - lijing00333@163.com
+ * Released under the MIT licenses.
  *
  *		- http://jayli.github.com
- *
  *
  */
 

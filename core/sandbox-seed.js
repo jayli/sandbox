@@ -7,7 +7,7 @@
  * Copyright 2011, 拔赤 - lijing00333@163.com
  * Released under the MIT licenses.
  *
- *		- http://jayli.github.com
+ *		- https://github.com/jayli/sandbox
  *
  */
 

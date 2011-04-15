@@ -15,6 +15,7 @@
 <script>
 var log = function(msg) {
 	document.getElementById('log').innerHTML += '<p>'+msg+'</p>';
+	window.scroll(0,10000000);
 };
 </script>
 </head>
@@ -36,18 +37,24 @@ Sandbox.ready(function(S){
 
 </script>
 <script>
-log('等待3秒钟');
+log('等待5秒钟');
 </script>
 <?php
 ob_flush();
 flush();
-sleep(3);
+sleep(5);
 ?>
 
 <div align=right>by jayli</div>
 </body>
 <script>
 log('domready');
+</script>
+<!--new codes-->
+<script>
+//Hack for CommonJS
+
+
 </script>
 </html>
 

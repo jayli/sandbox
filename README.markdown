@@ -8,19 +8,21 @@ Sandbox - 一个好玩的脚本加载器.
 # 理念
 
 - 动态构建模块树
-- 独特的代码组织风格
+- 有意思的代码组织风格
+- autoload机制的模拟
 - 它很好玩
 
 # 说明
 
-- [sandbox-seed.js](https://github.com/jayli/sandbox/blob/master/core/sandbox-seed.js)	种子文件，实现了一种模块管理机制
+- [sandbox-seed.js](https://github.com/jayli/sandbox/blob/master/core/sandbox-seed.js)	种子文件，实现了一种好玩的模块管理机制
 
-又一个“脚本加载器”？对，这个seed文件实现了Loader的功能，处理脚本之间的依赖关系，将模块于模块的调用关系耦合降到最低，它是最简单的脚本加载器，例如，A依赖B，B的依赖对A是不透明的。因此，Sandbox和[controlJS](http://stevesouders.com/controljs/)相比，它是非侵入的，和[YUILoader](http://developer.yahoo.com/yui/3/)相比，它不必预先定义好依赖次序，和[yepnopejs](http://yepnopejs.com/)相比，没有繁杂的约定和对document.write的限制……
+又一个“脚本加载器”？对，这个seed文件实现了Loader的功能，处理脚本之间的依赖关系，将模块于模块的调用关系耦合降到最低，它是最简单的脚本加载器，例如，A依赖B，B的依赖对A是不透明的。因此，Sandbox和[controlJS](http://stevesouders.com/controljs/)相比，它是非侵入的，和[YUILoader](http://developer.yahoo.com/yui/3/)相比，它不必预先定义好依赖次序，和[yepnopejs](http://yepnopejs.com/)相比，没有对document.write的使用限制，和[seajs](http://seajs.com/)相比，不必去迎合commonJS的那些规定和教条……
 
 # Demo
 
 - [Demo1](http://jayli.github.com/sandbox/examples/jq-tab.html)，主程序依赖了`tab.js`,`tab.js`依赖了`jquery.js`
 - [Demo2](http://jayli.github.com/sandbox/examples/test.php.html)，依赖php环境，测试loader顺序
+- [Demo3](http://jayli.github.com/sandbox/examples/main.html)，模拟php的autoload机制
 
 Demo2中，test.php中的依赖关系为
 
@@ -143,6 +145,31 @@ Sandbox可以直接调取外部脚本
 
 	Sandbox.loadScript(url,callback);//只支持单url的场景
 	Sandbox.loadCSS(url,callback);//不会等待url请求成功，直接执行回调
+
+## autoload
+
+Sandbox提供了另一个有意思的功能，就是autoload功能，熟悉PHP、Ruby和Python的同学对autoload不会陌生，就是通过代码分析来加载所需要的依赖文件，这种功能对于某个类库初学者来说非常有用，因为初学者不清楚用到的方法属于哪个模块，这时就需要用到autoload咯。
+
+Sandbox的autoload写法模拟PHP的写法，__autoload()函数的内容和PHP约定稍有不同，不过不妨碍理解，用法如下，首先需要在全局定义__autoload函数，返回值是一个map，给出每个方法对应的文件：
+
+function __autoload(){
+	return {
+		'MyClass1':'MyClass1.js',	
+		'A.B.C.D':'MyClass1.js',	
+		'MyClass2':'MyClass2.js',
+		'X.Y.Z':'MyClass2.js'
+	};
+}
+
+这时在写代码过程中，程序遇到未知的函数和变量，都会首先加载其对应的文件，以保证程序不会出错。
+
+Sandbox.ready(function(S){
+	MyClass1.init();
+	MyClass2.init();
+	A.B.C.D.init();
+});
+
+和PHP唯一的不同之处在于，PHP需要手写include方法来“阻塞式”引入文件，Sandbox只给出映射表即可，另外，Sandbox也不支持给__autoload传入参数，比如__autoload($class_name)
 
 # 兼容浏览器
 - IE 6+, Firefox 3+, Safari 4+, Chrome 2+, Opera 9+

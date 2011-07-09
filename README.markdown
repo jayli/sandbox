@@ -152,22 +152,22 @@ Sandbox提供了另一个有意思的功能，就是autoload功能，熟悉PHP�
 
 Sandbox的autoload写法模拟PHP的写法，`__autoload()`函数的内容和PHP约定稍有不同，不过不妨碍理解，用法如下，首先需要在全局定义`__autoload`函数，返回值是一个map，给出每个方法对应的文件：
 
-function __autoload(){
-	return {
-		'MyClass1':'MyClass1.js',	
-		'A.B.C.D':'MyClass1.js',	
-		'MyClass2':'MyClass2.js',
-		'X.Y.Z':'MyClass2.js'
-	};
-}
+	function __autoload(){
+		return {
+			'MyClass1':'MyClass1.js',	
+			'A.B.C.D':'MyClass1.js',	
+			'MyClass2':'MyClass2.js',
+			'X.Y.Z':'MyClass2.js'
+		};
+	}
 
 这时在写代码过程中，程序遇到未知的函数和变量，都会首先加载其对应的文件，以保证程序不会出错。
 
-Sandbox.ready(function(S){
-	MyClass1.init();
-	MyClass2.init();
-	A.B.C.D.init();
-});
+	Sandbox.ready(function(S){
+		MyClass1.init();
+		MyClass2.init();
+		A.B.C.D.init();
+	});
 
 和PHP唯一的不同之处在于，PHP需要手写include方法来“阻塞式”引入文件，Sandbox只给出映射表即可，另外，Sandbox也不支持给`__autoload`传入参数，比如`__autoload($class_name)`
 

@@ -150,7 +150,7 @@ Sandbox可以直接调取外部脚本
 
 Sandbox提供了另一个有意思的功能，就是autoload功能，熟悉PHP、Ruby和Python的同学对autoload不会陌生，就是通过代码分析来加载所需要的依赖文件，这种功能对于某个类库初学者来说非常有用，因为初学者不清楚用到的方法属于哪个模块，这时就需要用到autoload咯。
 
-Sandbox的autoload写法模拟PHP的写法，__autoload()函数的内容和PHP约定稍有不同，不过不妨碍理解，用法如下，首先需要在全局定义__autoload函数，返回值是一个map，给出每个方法对应的文件：
+Sandbox的autoload写法模拟PHP的写法，`__autoload()`函数的内容和PHP约定稍有不同，不过不妨碍理解，用法如下，首先需要在全局定义`__autoload`函数，返回值是一个map，给出每个方法对应的文件：
 
 function __autoload(){
 	return {
@@ -169,7 +169,7 @@ Sandbox.ready(function(S){
 	A.B.C.D.init();
 });
 
-和PHP唯一的不同之处在于，PHP需要手写include方法来“阻塞式”引入文件，Sandbox只给出映射表即可，另外，Sandbox也不支持给__autoload传入参数，比如__autoload($class_name)
+和PHP唯一的不同之处在于，PHP需要手写include方法来“阻塞式”引入文件，Sandbox只给出映射表即可，另外，Sandbox也不支持给`__autoload`传入参数，比如`__autoload($class_name)`
 
 # 兼容浏览器
 - IE 6+, Firefox 3+, Safari 4+, Chrome 2+, Opera 9+

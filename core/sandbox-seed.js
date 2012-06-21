@@ -1,15 +1,8 @@
-/**
- * Sandbox-seed
- *		- 自动加载外部脚本
- *		- 模块依赖关系对父模块不可见
- *		- modules之间的进一步解耦
- *
- * Copyright 2011, 拔赤 - lijing00333@163.com
- * Released under the MIT licenses.
- *
- *		- https://github.com/jayli/sandbox
- *
- */
+/*! Sandbox.js (Sandbox :: a funny js Loader)
+v1.0 (c) Jayli (bachi@taobao.com)
+MIT License
+http://github.com/jayli/sandbox
+*/
 
 //Sandbox全局对象
 

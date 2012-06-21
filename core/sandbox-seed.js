@@ -6,7 +6,9 @@ http://github.com/jayli/sandbox
 
 //Sandbox全局对象
 
-var Sandbox = Sandbox || {
+(function(exports){
+
+exports.Sandbox = {
 
 	_autoload : function(){
 		if(typeof window.__autoload == 'undefined'){
@@ -809,4 +811,5 @@ Sandbox.onDOMContentLoaded(function(){
 	
 });
 
+}(this));
 

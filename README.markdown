@@ -1,4 +1,4 @@
-﻿![logo](http://img01.taobaocdn.com/tps/i1/T1Jal3XgFeXXXXXXXX-333-92.png)
+![logo](http://jayli.github.com/sandbox/assets/logo.png)
 
 Sandbox - 一个好玩的脚本加载器.
  
@@ -111,6 +111,14 @@ config：该模块的依赖文件和其他配置，格式为
 		//your code,这里的代码无执行
 	},{
 		auto:false	
+	});
+
+## 简单的脚本加载器
+
+Sandbox提供了一种简单加载外部脚本的方式`Sandbox.load('script1','script2',callback)`，callback可选：
+
+	Sandbox.load('http://cdn/a.js','http://cdn/b.js',function(S){
+		// your code
 	});
 
 ## 调用子模块

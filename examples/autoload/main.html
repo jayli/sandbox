@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -26,6 +26,12 @@ render start
 
 <script>
 
+Sandbox.load('mod1.js',function(S){
+	
+});
+
+//////////////
+
 function __autoload() {
 	return {
 		'MyClass1':'MyClass1.js',	
@@ -34,7 +40,7 @@ function __autoload() {
 		'X.Y.Z':'MyClass2.js'
 	};
 }
-
+/*
 Sandbox.ready(function(S){
 
 	MyClass1.init();
@@ -42,7 +48,7 @@ Sandbox.ready(function(S){
 	A.B.C.D.init();
 
 },{requires:['mod1.js']},true);
-
+*/
 
 </script>
 <!--?php

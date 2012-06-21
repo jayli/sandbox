@@ -12,8 +12,8 @@
  */
 
 //Sandbox全局对象
-Sandbox = {
 
+var Sandbox = Sandbox || {
 
 	_autoload : function(){
 		if(typeof window.__autoload == 'undefined'){
@@ -347,11 +347,6 @@ Sandbox = {
 			}
 			*/
 
-
-
-
-
-
 			var ret = that._parseAutoload(callback.toString());
 			if(ret.length == 0 || callback.done){
 				callback(that);
@@ -371,7 +366,6 @@ Sandbox = {
 	 * @type string
 	 */
 	_RuntimeScript:'',
-
 
 	/**
 	 * 主线程执行的队列，用于存放多个ready沙箱的回调
@@ -410,7 +404,9 @@ Sandbox = {
 		}
 		that.DoQueue.push({callback:callback,requires:requires});
 	},
-
+	/**
+	 * 如果add的逻辑没有立即执行，则通过use调用模块名字来执行
+	 */
 	use : function(){
 		var that = this;
 		var a = arguments;
@@ -495,7 +491,6 @@ Sandbox = {
 			return false;
 		}
 
-
 		if(url instanceof Array){
 
 			if(url.length == 1){
@@ -566,7 +561,7 @@ Sandbox = {
 	 * @param url 脚本fullpath
 	 * @private
 	 */
-	loadCSS:function(url){   
+	loadCSS : function(url){   
 		var cssLink = document.createElement("link");   
 		cssLink.rel = "stylesheet";   
 		cssLink.rev = "stylesheet";   
@@ -575,6 +570,32 @@ Sandbox = {
 		cssLink.href = url;   
 		document.getElementsByTagName("head")[0].appendChild(cssLink);   
 	},
+	
+	/**
+	 * load 函数,仅用于加载外部脚本只用，一种快捷用法
+	 * @mathod load
+	 * @param Sandbox.load('script-url1','script-url2'...function(S){})
+	 * @public
+	 */
+	load : function(){
+		var that = this;
+		var a = [];
+		var _cb = arguments[arguments.length - 1];
+		var cb = (typeof _cb) == 'function' ? _cb : new Function;
+
+		for(var i = 0 ;i<arguments.length;i++){
+			if(typeof arguments[i] == 'string'){
+				a.push(arguments[i]);
+			}
+		}
+
+		that.ready(cb,{
+			requires:a
+		});
+		
+		return this;
+	},
+	
 	/** 
 	 * 给数组去重,前向去重，若有重复，去掉前面的重复值,保留后面的
 	 * @method  distinct  

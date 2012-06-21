@@ -1,4 +1,4 @@
-![logo](http://jayli.github.com/sandbox/assets/logo.png)
+![logo](http://jayli.github.com/sandbox/assets/sandbox.png)
 
 Sandbox - 一个好玩的脚本加载器.
  

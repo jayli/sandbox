@@ -46,7 +46,6 @@ mix(S,{
 	 * }
 	 */
 	_parseAutoload : function(code){
-
 		var that = this;
 		if(!that._autoload()) return [];
 		

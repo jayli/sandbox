@@ -12,12 +12,25 @@ http://github.com/jayli/sandbox
 
 */
 
-//Sandbox全局对象
-
 (function(exports){
 
-exports.Sandbox = {
+var mix = function(o,a){
+	for(var i in a){
+		o[i] = a[i];
+	}
+};
 
+/* shortcut of Sandbox
+ * Sandbox 可被视为函数，亦可被视为对象
+ */
+var S = function(){
+	arguments.callee.ready.apply(arguments.callee,arguments);
+};
+
+mix(S,{
+	/*
+	 * _autoload 函数，模仿PHP的__autoload
+	 */
 	_autoload : function(){
 		if(typeof window.__autoload == 'undefined'){
 			return false;
@@ -26,7 +39,7 @@ exports.Sandbox = {
 		}
 	},
 
-	/**
+	/*
 	 * php autoload机制的模拟
 	 * function __autoload($class_name){
 	 * 		include $class_name.'.php';
@@ -69,7 +82,7 @@ exports.Sandbox = {
 		return ret;
 	},
 
-	/**
+	/*
 	 * 全局模块树，动态构建
 	 * 格式：
 	 *	'mojo-name':{
@@ -82,7 +95,8 @@ exports.Sandbox = {
 	 * @default {}
 	 */
 	_Mojos:{},
-	/**
+	
+	/*
 	 * 增加一个模块到_Mojos中
 	 * 参数格式：
 	 *	{
@@ -105,7 +119,8 @@ exports.Sandbox = {
 		that._Mojos[o.mojoname].callback = o.callback;
 		that._Mojos[o.mojoname].requires = o.requires;
 	},
-	/**
+	
+	/*
 	 * 使用add添加模块的代码
 	 * @method add
 	 * @interface 
@@ -117,27 +132,29 @@ exports.Sandbox = {
 	add:function(mojoname,callback,config){
 		var that = this,
 			o = {};
+
 		if(typeof mojoname == 'function'){
 			var config = callback,
 				callback = mojoname,
 				mojoname = 'K_'+Math.random().toString().replace('.','');
 		}
+
 		o.mojoname = mojoname;
 		o.callback = callback;
 		o.fullpath = that._RuntimeScript;
+		
 		var config = config||{},
 			requires = config.requires?config.requires:[],
 			auto = (typeof config.auto != 'undefined')?config.auto:true;//默认都是自动加载
+		
 		o.requires = requires;
 		o.auto = auto;
 		that._addMojo(o);
-		/*
-		that._loadUnloaded(function(S){
-
-		});
-		*/
+		
+		return this;
 	},
-	/**
+
+	/*
 	 * namespace
 	 * yui的namespace在闭包中对上下文要求太苛刻，重写之，只判断是否存在，不做类型处理
 	 * @method namespace
@@ -156,7 +173,6 @@ exports.Sandbox = {
 			}else{
 				var j = 0,
 					_win = window;
-
 			}
 			for(;j<d.length;j++){
 				if(typeof _win[d[j]] === 'undefined')_win[d[j]] = {};
@@ -165,7 +181,8 @@ exports.Sandbox = {
 		}
 		return _win;
 	},
-	/**
+
+	/*
 	 * 遍历_Mojos，计算当前未加载的脚本，并加载之，JS文件是从前到后依次串行加载
 	 * @method _loadUnloaded 
 	 * @param callback 加载完成的回调 
@@ -183,8 +200,7 @@ exports.Sandbox = {
 			}
 		}
 		_a = that.distinct(_a);
-
-		
+	
 		var recursion = function(){
 			if(_a.length == 0){
 				callback(that);
@@ -196,7 +212,8 @@ exports.Sandbox = {
 		};
 		recursion();
 	},
-	/**
+
+	/*
 	 * 检查文件是否已经加载,已经加载return true否则return false
 	 * @method _checkLoaded
 	 * @param fullpath 传入要检查的文件fullpath 
@@ -206,14 +223,9 @@ exports.Sandbox = {
 		var that = this;
 		if(that.inArray(fullpath,that._LoadQueue))return true;
 		else return false;
-		/*
-		for(var i in that._Mojos){
-			if(that._Mojos[i].fullpath == fullpath)return true;
-		}
-		return false;
-		*/
 	},
-	/**
+
+	/*
 	 * 检查是否还有需要加载的脚本,true，加载完全，若返回一个脚本的fullpath，说明还有未加载的
 	 * @method _checkAllLoaded 
 	 * @private
@@ -230,8 +242,13 @@ exports.Sandbox = {
 		}
 		return true;
 	},
+
+	/*
+	 * 已经装载的模块名称
+	 */
 	_Uses:[],
-	/**
+	
+	/*
 	 * 创建执行模块回调的顺序存储到_ExeQueue中,一定是在脚本完全加载后执行
 	 * TODO 并未用到树遍历，只是粗糙的偏等计算并去重，有待进一步改进
 	 * @method _buildExeQueue
@@ -252,7 +269,8 @@ exports.Sandbox = {
 		that._ExeQueue = [];
 		for(var i in _a){
 			for(var j in that._Mojos){
-				if(_a[i] == that._Mojos[j].fullpath && (that._Mojos[j].auto == true || that.inArray(j,that._Uses))){
+				if(_a[i] == that._Mojos[j].fullpath && 
+						(that._Mojos[j].auto == true || that.inArray(j,that._Uses))){
 					that._ExeQueue.push(j);
 					//break;
 				}
@@ -260,18 +278,16 @@ exports.Sandbox = {
 		}
 		that._reorder();
 		/*
-
 		for(var i = 0;i<that._Uses.length;i++){
 			if(that._Mojos[that._Uses[i]]){
 				that._ExeQueue = that._ExeQueue.concat(that._Uses);
 			}
 		}
 		*/
-
 	},
-	/**
+
+	/*
 	 * 重新排序_ExeQueue，如果不排序，同一个文件中的mojo执行顺序是倒序的
-	 *
 	 * @method
 	 * @private
 	 */
@@ -300,10 +316,9 @@ exports.Sandbox = {
 				}
 			}
 		}
-
 	},
 
-	/**
+	/*
 	 * 已经loaded的脚本文件存储在这里
 	 * 类似：
 	 * 		['1.js','2.js']
@@ -312,7 +327,8 @@ exports.Sandbox = {
 	 * @type []
 	 */
 	_LoadQueue:[],
-	/**
+	
+	/*
 	 * 执行模块的回调的顺序,这里的mojo-name是模块定义的时候指定的名称,重复的名称会被覆盖
 	 * 类似：
 	 * 		['mojo-name','mojo-name-1']
@@ -322,7 +338,7 @@ exports.Sandbox = {
 	 */
 	_ExeQueue:[],
 	
-	/**
+	/*
 	 * 根据模块树，按照顺序执行模块树中的回调
 	 * @method _runConstructors
 	 * @private
@@ -340,16 +356,6 @@ exports.Sandbox = {
 
 			var callback = that._Mojos[_a[i]].callback;
 
-			//autoload 的逻辑
-			/*
-			var ret = that._parseAutoload(callback.toString());
-			if(ret.length == 0){
-				callback(that);
-			}else{
-				that.loadScript(ret,callback);
-			}
-			*/
-
 			var ret = that._parseAutoload(callback.toString());
 			if(ret.length == 0 || callback.done){
 				callback(that);
@@ -359,10 +365,10 @@ exports.Sandbox = {
 				});
 			}
 			callback.done = true;
-
 		}
 	},
-	/**
+
+	/*
 	 * 当前文件的依赖的script fullpath
 	 * @property 
 	 * @private
@@ -370,7 +376,7 @@ exports.Sandbox = {
 	 */
 	_RuntimeScript:'',
 
-	/**
+	/*
 	 * 主线程执行的队列，用于存放多个ready沙箱的回调
 	 * item格式为：
 	 * 		{callback:callback,requires:requires}
@@ -380,7 +386,7 @@ exports.Sandbox = {
 	 */
 	DoQueue:[],
 
-	/**
+	/*
 	 * 开启沙箱
 	 * @method ready
 	 * @interface 
@@ -393,7 +399,7 @@ exports.Sandbox = {
 		var that = this;
 		if(typeof config == 'boolean'){
 			arguments.callee.apply(this,[callback,{requires:[]},config]);
-			return;
+			return this;
 		}
 		var status = typeof status=='undefined'?false:true;
 		if(typeof config != 'undefined'){
@@ -403,11 +409,13 @@ exports.Sandbox = {
 		}
 		if(that.domReady || status){
 			that.run(requires,callback);
-			return;
+			return this;
 		}
 		that.DoQueue.push({callback:callback,requires:requires});
+		return this;
 	},
-	/**
+
+	/*
 	 * 如果add的逻辑没有立即执行，则通过use调用模块名字来执行
 	 */
 	use : function(){
@@ -420,17 +428,11 @@ exports.Sandbox = {
 				that._Uses.push(a[i]);
 			}
 		}
-		/*
-		if(that.domReady){
-			that._Mojos[]
-			var SD = Sandbox.DoQueue[i];
-			Sandbox.run(SD.requires,SD.callback);
-		}
-		*/
-		return this;
 
+		return this;
 	},
-	/**
+
+	/*
 	 * 主线程开始调用各自的沙箱回调
 	 * @method run
 	 * @param a 主线程依赖的模块数组
@@ -460,25 +462,23 @@ exports.Sandbox = {
 				}else{
 					that._loadUnloaded(recursion);
 				}
-				/*
-				that._loadUnloaded(function(S){
-					callback(S);	
-				});
-				*/
+				
 				return false;
 			}
 			that.loadScript(requires.pop(),recursion);
 		};
 		recursion();
+
+		return this;
 	},
 
-	/**
+	/*
 	 * 正在下载中(包括下载完成)的脚本
 	 * @type []
 	 */
 	_loadingQueue:[],
 
-	/**
+	/*
 	 * load脚本
 	 * TODO opera 10+下有bug
 	 * @method loadScript
@@ -509,7 +509,6 @@ exports.Sandbox = {
 			});
 
 			return false;
-
 		}
 
 
@@ -557,8 +556,9 @@ exports.Sandbox = {
 	 
 	   script.src = url;   
 	   document.getElementsByTagName("head")[0].appendChild(script);   
-	},  
-	/**
+	},
+		
+	/*
 	 * load样式
 	 * @method loadCSS
 	 * @param url 脚本fullpath
@@ -574,8 +574,8 @@ exports.Sandbox = {
 		document.getElementsByTagName("head")[0].appendChild(cssLink);   
 	},
 	
-	/**
-	 * load 函数,仅用于加载外部脚本只用，一种快捷用法
+	/*
+	 * load 函数,仅用于加载外部脚本只用，一种快捷用法，考虑到安全第一（非性能），依赖DomReady
 	 * @mathod load
 	 * @param Sandbox.load('script-url1','script-url2'...function(S){})
 	 * @public
@@ -599,7 +599,7 @@ exports.Sandbox = {
 		return this;
 	},
 	
-	/** 
+	/* 
 	 * 给数组去重,前向去重，若有重复，去掉前面的重复值,保留后面的
 	 * @method  distinct  
 	 * @param { array } 需要执行去重操作的数组
@@ -623,7 +623,7 @@ exports.Sandbox = {
 		}
 		return a;
 	},
-	/**
+	/*
 	* 判断数值是否存在数组中
 	* @param { value } v : 要匹配的数值
 	* @param { array } a : 存在的数组
@@ -639,11 +639,11 @@ exports.Sandbox = {
 		return o;
 	},
 
-	/**
-	* 浏览器判断，来自yui3
-	* @property
-	* @static
-	*/
+	/*
+	 * 浏览器判断，来自yui3
+	 * @property
+	 * @static
+	 */
 	UA :function() {
 
 		var numberfy = function(s) {
@@ -737,9 +737,12 @@ exports.Sandbox = {
 		return o;
 	}(),
 
+	/*
+	 * 脚本装载之初，默认DomReady为false
+	 */
 	domReady:false,
 
-	/**
+	/*
 	 * onDomReady
 	 * @param onReady 回调
 	 * @param config 配置项，包含requires:[]，成员为脚本地址
@@ -808,16 +811,19 @@ exports.Sandbox = {
 
 	}//DOMContentLoaded end
 
-};
+});
 
-//全局启动入口
-Sandbox.onDOMContentLoaded(function(){
-	for(var i = 0 ;i < Sandbox.DoQueue.length;i++){
-		var SD = Sandbox.DoQueue[i];
-		Sandbox.run(SD.requires,SD.callback);
+// 全局启动入口
+S.onDOMContentLoaded(function(){
+	for(var i = 0 ;i < S.DoQueue.length;i++){
+		var SD = S.DoQueue[i];
+		S.run(SD.requires,SD.callback);
 	}
 	
 });
+
+// 全局导出
+exports.Sandbox = S;
 
 }(this));
 

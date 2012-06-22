@@ -11,7 +11,7 @@
 }
 
 </style>
-<script type="text/javascript" src="../core/sandbox-seed.js"></script>
+<script type="text/javascript" src="../core/sandbox.js"></script>
 <script>
 var log = function(msg) {
 	document.getElementById('log').innerHTML += '<p>'+msg+'</p>';

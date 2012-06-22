@@ -55,7 +55,9 @@ Loading瀑布，脚本加载为串行(因为Loader在加载1.js文件完成之�
 ## 逻辑的启动
 
 Sandbox对象是来自于sandbox-seed.js中的定义，始终存在的全局对象，类似jQuery的$。Sandbox类似[Kissy](http://docs.kissyui.com/)，采用弱沙箱来串接各个子模块逻辑。Sandbox提供一些方法成员，用来加载/执行主逻辑或者模块逻辑，最常用的方法是ready和add。
-ready方法用于主逻辑的启动，表示“这段逻辑在依赖的模块都ready之后立即执行”，通常在页面中使用。用法：Sandbox.ready(callback,config,status).
+ready方法用于主逻辑的启动，表示“这段逻辑在依赖的模块都ready之后立即执行”，通常在页面中使用。用法：
+
+	Sandbox.ready(callback,config,status).
 
 callback:回调函数,回调参数为Sandbox
 

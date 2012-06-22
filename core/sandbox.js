@@ -2,6 +2,15 @@
 v1.0 (c) Jayli (bachi@taobao.com)
 MIT License
 http://github.com/jayli/sandbox
+
+ ####                 # #                 
+#                     # #                 
+#      ###   ###   #### ####   ###  #   # 
+ ###      # #   # #   # #   # #   #  # #  
+    #  #### #   # #   # #   # #   #   #   
+    # #   # #   # #   # #   # #   #  # #  
+####   #### #   #  #### ####   ###  #   # 
+
 */
 
 //Sandbox全局对象

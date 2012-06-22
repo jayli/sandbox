@@ -20,7 +20,8 @@ var mix = function(o,a){
 	}
 };
 
-/* shortcut of Sandbox
+/* 
+ * shortcut of Sandbox
  * Sandbox 可被视为函数，亦可被视为对象
  */
 var S = function(){

@@ -118,13 +118,25 @@ config：该模块的依赖文件和其他配置，格式为
 		auto:false	
 	});
 
-## 简单的脚本加载器
+## 简单的脚本加载
 
 Sandbox提供了一种简单加载外部脚本的方式`Sandbox.load('script1','script2',callback)`，callback可选：
 
 	Sandbox.load('http://cdn/a.js','http://cdn/b.js',function(S){
 		// your code
 	});
+
+这种方式加载的js依然通过Sandbox的机制进行过滤，依赖的依赖也会被检测到
+
+## 将Sandbox用作函数
+
+Sandbox提供另外一种快捷用法，可以用来生成一个简单的闭包：
+
+	Sandbox(function(S{
+		// your code
+	},{requires:[]});
+
+第二个参数可选，类似于直接调用Sandbox.ready，是依赖Domready的。
 
 ## 调用子模块
 

@@ -72,10 +72,10 @@ mix(S,{
 
 			while ((match = pattern.exec(code))) {
 				var f = trim(match[0]);
-			  if (f && map[f]) {
+				if (f && map[f]) {
 					if(that._checkLoaded(map[f]))continue;
 					ret.push(map[f]);
-			  }
+				}
 			}
 		}
 

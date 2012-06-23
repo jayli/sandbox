@@ -3,7 +3,7 @@ v1.0 (c) Jayli (bachi@taobao.com)
 MIT License
 http://github.com/jayli/sandbox
 
-	_____                 _ _               
+	 _____                 _ _               
 	/  ___|               | | |              
 	\ `--.  __ _ _ __   __| | |__   _____  __
 	 `--. \/ _` | '_ \ / _` | '_ \ / _ \ \/ /
@@ -21,8 +21,8 @@ var mix = function(o,a){
 };
 
 /* 
- * shortcut of Sandbox
- * Sandbox 可被视为函数，亦可被视为对象
+ * shortcut of Sandbox.ready
+ * Sandbox(arguments) == Sandbox.ready(arguments)
  */
 var S = function(){
 	arguments.callee.ready.apply(arguments.callee,arguments);
@@ -360,6 +360,7 @@ mix(S,{
 			if(ret.length == 0 || callback.done){
 				callback(that);
 			}else{
+				// TODO: 目前是依赖DomReady，是否去掉这个依赖?
 				that.ready(callback,{
 					requires:ret	
 				});
@@ -417,6 +418,9 @@ mix(S,{
 
 	/*
 	 * 如果add的逻辑没有立即执行，则通过use调用模块名字来执行
+	 * @method use
+	 * @param {string} 类似YUI的use()，但没有最后的回调，通过ready()来写回调
+	 * @public
 	 */
 	use : function(){
 		var that = this;
@@ -453,6 +457,7 @@ mix(S,{
 					if(ret.length == 0 || callback.done){
 						callback(that);
 					}else{
+						// TODO: 此处为依赖DomReady，是否要去掉这个依赖?
 						that.ready(callback,{
 							requires:ret	
 						});
@@ -592,6 +597,7 @@ mix(S,{
 			}
 		}
 
+		// TODO: 是否真的需要依赖DomReady?
 		that.ready(cb,{
 			requires:a
 		});
@@ -623,6 +629,7 @@ mix(S,{
 		}
 		return a;
 	},
+
 	/*
 	* 判断数值是否存在数组中
 	* @param { value } v : 要匹配的数值
@@ -656,21 +663,21 @@ mix(S,{
 			nav = navigator,
 
 			o = {
-			ie: 0,
-			opera: 0,
-			gecko: 0,
-			webkit: 0,
-			mobile: null,
-			air: 0,
-			caja: nav.cajaVersion,
-			secure: false,
-			os: null
-		},
+				ie: 0,
+				opera: 0,
+				gecko: 0,
+				webkit: 0,
+				mobile: null,
+				air: 0,
+				caja: nav.cajaVersion,
+				secure: false,
+				os: null
+			},
 
-		ua = nav && nav.userAgent, 
-		loc = window.location,
-		href = loc && loc.href,
-		m;
+			ua = nav && nav.userAgent, 
+			loc = window.location,
+			href = loc && loc.href,
+			m;
 
 		o.secure = href && (href.toLowerCase().indexOf("https") === 0);
 		if (ua) {
@@ -777,15 +784,16 @@ mix(S,{
 		   		try {  
 		   			document.documentElement.doScroll("left");  
 		   		} catch( error ) {  
-		   			setTimeout( arguments.callee, 0 );  
+					// bugfix: IE下检测DomReady的setTimeout由0改为50，防止跳出"停止脚本"的提示
+		   			setTimeout( arguments.callee, 50 );  
 		   			return;  
 		   		}  
 		   		doReady();  
 		   	})();  
 
 		   }//else over
-		   window.attachEvent('onload',doReady);  
 
+		   window.attachEvent('onload',doReady);  
 		}  
 		/*Webkit*/  
 		else if (Browser.webkit && Browser.version < 525){  
@@ -806,8 +814,7 @@ mix(S,{
 		   		 doReady();  
 		   	 }, false );  
 		    window.addEventListener('load',doReady,false);  
-		}  
-
+		}
 
 	}//DOMContentLoaded end
 
@@ -827,3 +834,9 @@ exports.Sandbox = S;
 
 }(this));
 
+/*
+ * TODO LIST:
+ *		1,封装CommonJS适配器
+ *		2,NodeJS兼容
+ *		3,补充测试用例
+ */

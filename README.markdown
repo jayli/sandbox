@@ -13,13 +13,12 @@ Sandbox - 一个好玩的脚本加载器.
 # 理念
 
 - 动态构建模块树
-- 有意思的代码组织风格
-- autoload机制的模拟
-- 它很好玩
+- 有特点的代码组织风格
+- autoload
 
 # 说明
 
-- [sandbox-seed.js](https://github.com/jayli/sandbox/blob/master/core/sandbox-seed.js)	种子文件，实现了一种好玩的模块管理机制
+- [sandbox.js](https://github.com/jayli/sandbox/blob/master/core/sandbox.js)	种子文件，实现了一种好玩的模块管理机制
 - [slideshare](http://www.slideshare.net/lijing00333/javascript-autoload-8590158)  一些基本概念，请阅读这个ppt
 
 又一个“脚本加载器”？对，这个seed文件实现了Loader的功能，处理脚本之间的依赖关系，将模块于模块的调用关系耦合降到最低，它是最简单的脚本加载器，例如，A依赖B，B的依赖对A是不透明的。因此，Sandbox和[controlJS](http://stevesouders.com/controljs/)相比，它是非侵入的，和[YUILoader](http://developer.yahoo.com/yui/3/)相比，它不必预先定义好依赖次序，和[yepnopejs](http://yepnopejs.com/)相比，没有对document.write的使用限制，和[seajs](http://seajs.com/)相比，不必去迎合commonJS的那些规定和教条……

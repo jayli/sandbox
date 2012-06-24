@@ -802,7 +802,7 @@ mix(S,{
 		   	 if (/loaded|complete/.test(document.readyState))  
 		   		 doReady();  
 		   	 else  
-		   		 setTimeout( arguments.callee, 0 );  
+		   		 setTimeout( arguments.callee, 10 );  
 		    })();  
 		    window.addEventListener('load',doReady,false);  
 		}  

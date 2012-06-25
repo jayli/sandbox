@@ -587,13 +587,18 @@ mix(S,{
 	 */
 	load : function(){
 		var that = this;
-		var a = [];
+		// a:js,b:css
+		var a = [],b=[];
 		var _cb = arguments[arguments.length - 1];
 		var cb = (typeof _cb) == 'function' ? _cb : new Function;
 
 		for(var i = 0 ;i<arguments.length;i++){
 			if(typeof arguments[i] == 'string'){
-				a.push(arguments[i]);
+				if(/\.css$/i.test(arguments[i])){
+					that.loadCSS(arguments[i]);
+				}else{
+					a.push(arguments[i]);
+				}
 			}
 		}
 
@@ -601,7 +606,7 @@ mix(S,{
 
 		var loadnext = function(){
 
-			if(I == a.length){
+			if(I == a.length - 1){
 				var _cb = cb;
 			} else {
 				var _cb = loadnext;

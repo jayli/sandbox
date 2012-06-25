@@ -121,7 +121,9 @@ config：该模块的依赖文件和其他配置，格式为
 
 ## 简单的脚本加载
 
-Sandbox提供了一种简单加载外部脚本的方式`Sandbox.load('script1','script2',callback)`，callback可选：
+Sandbox提供了一种简单加载外部脚本的方式`Sandbox.load('script1','script2',callback)`，callback可选.
+
+load中的脚本为串行加载（css文件不串行），被加载的文件也会被执行Sandbox规则，依赖的依赖会被检测到
 
 	Sandbox.load('http://cdn/a.js','http://cdn/b.js',function(S){
 		// your code

@@ -580,7 +580,7 @@ mix(S,{
 	},
 	
 	/*
-	 * load 函数,仅用于加载外部脚本只用，一种快捷用法，考虑到安全第一（非性能），依赖DomReady
+	 * load 函数,仅用于加载外部脚本之用，串行加载脚本，一种快捷用法，考虑到安全第一（非性能），依赖DomReady
 	 * @mathod load
 	 * @param Sandbox.load('script-url1','script-url2'...function(S){})
 	 * @public
@@ -597,12 +597,49 @@ mix(S,{
 			}
 		}
 
+		var I = 0;
+
+		var loadnext = function(){
+
+			if(I == a.length){
+				var _cb = cb;
+			} else {
+				var _cb = loadnext;
+			}
+			
+			that.ready(_cb,{
+				requires:[
+					a[I]
+				]
+			});
+
+			I++ ;
+
+		};
+
+		loadnext();
+
+		return this;
+
+		/*
+		for(var i = 0 ;i<a.length;i++){
+			that.ready( i == 0?cb:new Function , {
+				requires:[
+					
+				]
+			});
+
+
+		}
+		*/
+
 		// TODO: 是否真的需要依赖DomReady?
+		/*
 		that.ready(cb,{
 			requires:a
 		});
 		
-		return this;
+		*/
 	},
 	
 	/* 

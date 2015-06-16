@@ -12,6 +12,8 @@ Sandbox - 一个好玩的脚本加载器.
 
 # 理念
 
+[![Join the chat at https://gitter.im/jayli/sandbox](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jayli/sandbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 - 动态构建模块树
 - 有特点的代码组织风格
 - autoload

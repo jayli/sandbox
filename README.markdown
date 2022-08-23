@@ -7,8 +7,8 @@
 
 Sandbox - 一个好玩的脚本加载器.
  
-- Created by [拔赤](http://jayli.github.com)
-- License: [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
+- Created by 拔赤
+- License: MIT
 
 # 理念
 
@@ -31,19 +31,21 @@ Sandbox - 一个好玩的脚本加载器.
 
 Demo2中，test.php中的依赖关系为
 
-	test.php
-		|
-		|--1.js
-		|	|
-		|	|--2.js
-		|	|	|
-		|	|	|--jquery
-		|	|
-		|	|--3.js
-		|		|
-		|		|--4.js
-		|
-		|--5.js
+```
+test.php
+  |
+  |--1.js
+  |	|
+  |	|--2.js
+  |	|	|
+  |	|	|--jquery
+  |	|
+  |	|--3.js
+  |		|
+  |		|--4.js
+  |
+  |--5.js
+```
 
 Loading瀑布，脚本加载为串行(因为Loader在加载1.js文件完成之前无法知晓1.js依赖其他的js文件)，动态构建模块树,其中并行的两个js下载是2.js和3.js
 
@@ -56,34 +58,41 @@ Loading瀑布，脚本加载为串行(因为Loader在加载1.js文件完成之�
 Sandbox对象是来自于sandbox-seed.js中的定义，始终存在的全局对象，类似jQuery的$。Sandbox类似[Kissy](http://docs.kissyui.com/)，采用弱沙箱来串接各个子模块逻辑。Sandbox提供一些方法成员，用来加载/执行主逻辑或者模块逻辑，最常用的方法是ready和add。
 ready方法用于主逻辑的启动，表示“这段逻辑在依赖的模块都ready之后立即执行”，通常在页面中使用。用法：
 
-	Sandbox.ready(callback,config,status).
+```
+Sandbox.ready(callback,config,status).
+```
 
-callback:回调函数,回调参数为Sandbox
+callback: 回调函数, 回调参数为Sandbox
 
-config:定义依赖的文件，格式为
+config: 定义依赖的文件，格式为
 
-	{
-		requires:[
-			'jsfile1.js','jsfile2.js','cssfile.css'
-		]
-	}
+```
+{
+  requires:[
+    'jsfile1.js','jsfile2.js','cssfile.css'
+  ]
+}
+```
 
 status:逻辑是否依赖domready，true时立即执行，false等待domready后执行，默认为false
 
-	Sandbox.ready(function(S){//立即执行这段代码
-		alert('hello world!');	
-	},true);
+```
+Sandbox.ready(function(S){//立即执行这段代码
+  alert('hello world!');
+},true);
+```
 
 等待domready后执行逻辑
 
-	Sandbox.ready(function(S){//domready后执行这段逻辑，请求子逻辑也是domready之后，如果已经domready，立即执行
-		alert('hello world!');	
-	},{
-		requires:[
-			'1.js','2.js','3.css'
-		]
-	});
-
+```
+Sandbox.ready(function(S){//domready后执行这段逻辑，请求子逻辑也是domready之后，如果已经domready，立即执行
+  alert('hello world!');
+},{
+  requires:[
+    '1.js','2.js','3.css'
+  ]
+});
+```
 ## 添加子模块
 
 Sandbox提供add方法，用来添加模块，并指定该模块的依赖，用法：Sandbox.add(modulename,callback,config)。
@@ -95,29 +104,35 @@ callback：回调函数，参数为Sandbox
 
 config：该模块的依赖文件和其他配置，格式为
 
-	{
-		requires:[
-			'jsfile1.js','jsfile2.js','cssfile.css'
-		],
-		auto:true //该逻辑是否可执行，默认为true
-	}
+```
+{
+  requires:[
+    'jsfile1.js','jsfile2.js','cssfile.css'
+  ],
+  auto:true //该逻辑是否可执行，默认为true
+}
+```
 
 添加子模块：
 
-	Sandbox.add('tab',function(S){ //第一个参数可以省略
-		//your code
-	},{requires:[
-		'jquery.js',
-		'skin.css'
-	]});
+```
+Sandbox.add('tab',function(S){ //第一个参数可以省略
+  //your code
+},{requires:[
+  'jquery.js',
+  'skin.css'
+]});
+```
 
 子模块的逻辑不执行：
 
-	Sandbox.add(function(S){ 
-		//your code,这里的代码无执行
-	},{
-		auto:false	
-	});
+```
+Sandbox.add(function(S){
+  //your code,这里的代码无执行
+},{
+  auto:false
+});
+```
 
 ## 简单的脚本加载
 
@@ -125,9 +140,11 @@ Sandbox提供了一种简单加载外部脚本的方式`Sandbox.load('script1','
 
 load中的脚本为串行加载（css文件不串行），被加载的文件也会被执行Sandbox规则，依赖的依赖会被检测到
 
-	Sandbox.load('http://cdn/a.js','http://cdn/b.js',function(S){
-		// your code
-	});
+```
+Sandbox.load('http://cdn/a.js', 'http://cdn/b.js',function(S){
+  // your code
+});
+```
 
 这种方式加载的js依然通过Sandbox的机制进行过滤，依赖的依赖也会被检测到
 
@@ -135,9 +152,11 @@ load中的脚本为串行加载（css文件不串行），被加载的文件也�
 
 Sandbox提供另外一种快捷用法，可以用来生成一个简单的闭包：
 
-	Sandbox(function(S{
-		// your code
-	},{requires:[]});
+```
+Sandbox(function(S{
+  // your code
+}, {requires:[]});
+```
 
 第二个参数可选，类似于直接调用Sandbox.ready，是依赖Domready的。
 
@@ -145,35 +164,45 @@ Sandbox提供另外一种快捷用法，可以用来生成一个简单的闭包�
 
 为了让程序组织更加灵活，Sandbox增加了use方法，可以让模块在装载的时候不用执行(通过配置auto参数)，在需要的时刻再执行子逻辑，实现逻辑类似YUI().use()，只是Sandbox.use没有和loader本身关联在一起，仅用作调用子逻辑。用法：Sandbox.use('modulename1','modulename2')，例如主程序调用了1.js：
 
-	Sandbox.ready(function(S){
-		//主逻辑
-	},{requires:['1.js']});
+```
+Sandbox.ready(function(S){
+  //主逻辑
+},{requires:['1.js']});
+```
 
 1.js设置了不立即执行，并给定了逻辑的名称
 
-	Sandbox.add('modulename',function(S){
-		//模块逻辑
-	},{auto:false});
+```
+Sandbox.add('modulename',function(S){
+  //模块逻辑
+}, {auto:false});
+```
 
 在需要的时刻调用这个逻辑：
 
-	Sandbox.use('modulename').ready(function(S){
-		//执行子逻辑后的回调
-	});
+```
+Sandbox.use('modulename').ready(function(S){
+  //执行子逻辑后的回调
+});
+```
 
 ## 定义命名空间
 
 Sandbox提供namespace方法，用来生成一个命名空间，用法：
 
-	Sandbox.namespace('S.SubModule');//创建S.SubModule
-	Sandbox.namespace('a.b.c.d');//创建a.b.c.d
+```
+Sandbox.namespace('S.SubModule');//创建S.SubModule
+Sandbox.namespace('a.b.c.d');//创建a.b.c.d
+```
 
 ## 加载外部脚本
 
 Sandbox可以直接调取外部脚本
 
-	Sandbox.loadScript(url,callback);//只支持单url的场景
-	Sandbox.loadCSS(url,callback);//不会等待url请求成功，直接执行回调
+```
+Sandbox.loadScript(url,callback);//只支持单url的场景
+Sandbox.loadCSS(url,callback);//不会等待url请求成功，直接执行回调
+```
 
 ## autoload
 
@@ -181,22 +210,26 @@ Sandbox提供了另一个有意思的功能，就是autoload功能，熟悉PHP�
 
 Sandbox的autoload写法模拟PHP的写法，`__autoload()`函数的内容和PHP约定稍有不同，不过不妨碍理解，用法如下，首先需要在全局定义`__autoload`函数，返回值是一个map，给出每个方法对应的文件：
 
-	function __autoload(){
-		return {
-			'MyClass1':'MyClass1.js',	
-			'A.B.C.D':'MyClass1.js',	
-			'MyClass2':'MyClass2.js',
-			'X.Y.Z':'MyClass2.js'
-		};
-	}
+```
+function __autoload(){
+  return {
+    'MyClass1':'MyClass1.js',	
+    'A.B.C.D':'MyClass1.js',	
+    'MyClass2':'MyClass2.js',
+    'X.Y.Z':'MyClass2.js'
+  };
+}
+```
 
 这时在写代码过程中，程序遇到未知的函数和变量，都会首先加载其对应的文件，以保证程序不会出错。
 
-	Sandbox.ready(function(S){
-		MyClass1.init();
-		MyClass2.init();
-		A.B.C.D.init();
-	});
+```
+Sandbox.ready(function(S){
+  MyClass1.init();
+  MyClass2.init();
+  A.B.C.D.init();
+});
+```
 
 和PHP唯一的不同之处在于，PHP需要手写include方法来“阻塞式”引入文件，Sandbox只给出映射表即可，另外，Sandbox也不支持给`__autoload`传入参数，比如`__autoload($class_name)`
 
